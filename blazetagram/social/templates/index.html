@@ -1,0 +1,11 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>System Statistics</h1>
+  <ul>
+    <li><strong>Total number of users in the system:</strong> {{ num_users }}</li>
+  </ul>
+
+  <p>You have interacted with the server {{ num_visits }}{% if num_visits == 1 %} time{% else %} times{% endif %}.</p>
+  
+{% endblock %}
