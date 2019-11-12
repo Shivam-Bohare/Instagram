@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h3>UserName: {{ user.username }}</h3>
+    <br>
+  {% if user.email %} <p><strong>Email:</strong> {{ user.email }}</a> {% endif %}
+    {% if user.first_name %} <p><strong>First Name:</strong> {{ user.first_name }}</p> {% endif %}
+    {% if user.last_name %} <p><strong>Last Name:</strong> {{ user.last_name }}</p>  {% endif %}
+    {% if user.biography %} <p><strong>Biography:</strong> {{ user.biography }}</p>  {% endif %}
+    {% if user.website %} <p><strong>Website:</strong> {{ user.website }}</p>  {% endif %}
+    {% if user.gender %} <p><strong>Gender:</strong> {{ user.gender}}</p> {% endif %}
+    {% if user.phone_number %} <p><strong>Phone Number:</strong> (+ {{ user.phone_country_code}} ) {{ user.phone_number }}</p>  {% endif %} 
+
+{% endblock %}

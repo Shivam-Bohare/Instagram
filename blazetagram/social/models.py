@@ -16,7 +16,7 @@ from django.dispatch import receiver
 # -----------------------------------User Info Model Class---------------------------------#
 class UserInfo(User):
     """Model for user info to be displayed on the website"""
-    objects = UserManager()
+    #objects = UserManager()
     #user_id = models.OneToOneField(User, on_delete=models.CASCADE)
      
     biography = models.TextField(verbose_name="Biography", blank=True, null=True)

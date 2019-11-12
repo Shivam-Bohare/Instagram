@@ -1,7 +1,13 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1>Users</h1>
+  <h1>Search</h1>
+
+<form action="{% url 'search' %}" method="get">
+  <input name="q" type="text" placeholder="Search...">
+</form>
+<br>
+
   {% if user_list %}
   <ul>
     {% for user in user_list %}
