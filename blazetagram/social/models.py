@@ -31,7 +31,7 @@ class UserInfo(User):
 
     privacy = models.BooleanField(verbose_name="Privacy", default=False)
     
-    profile_picture = models.ImageField( null=True, upload_to='images/')
+    profile_picture = models.ImageField(blank=True, null=True, upload_to='images/')
     
     time = models.DateTimeField(verbose_name="User Creation Time", auto_now=True)
     
@@ -230,9 +230,9 @@ class UserInfo(User):
     )
 
     phone_country_code = models.CharField(
-        verbose_name="Country Code", choices=COUNTRY_CODES, default="91", max_length=5
+        verbose_name="Country Code", choices=COUNTRY_CODES, default="91", max_length=5, null=True, blank = True
     )
-    phone_number = models.IntegerField(verbose_name="Phone Number", unique=True , null=True)
+    phone_number = models.IntegerField(verbose_name="Phone Number", unique=True , null=True, blank=True)
 
     def __str__(self):
         """String for representing the Model object"""
@@ -248,13 +248,13 @@ class Picture(models.Model):
     time = models.DateTimeField(verbose_name="Upload Time", auto_now=True)
     picture_description = models.TextField(verbose_name="Picture Description")
     picture = models.ImageField(null = True, upload_to='images/')
-
+    
     class Meta:
         ordering = ["-time"]
 
     def __str__(self):
         """String for representing the Model object"""
-        return f"{self.picture_url}" # pylint: disable=no-member
+        return f"{self.picture}" # pylint: disable=no-member
 
 
 # -----------------------------------Comment Model Class---------------------------------#

@@ -9,6 +9,16 @@
     {% if user.biography %} <p><strong>Biography:</strong> {{ user.biography }}</p>  {% endif %}
     {% if user.website %} <p><strong>Website:</strong> {{ user.website }}</p>  {% endif %}
     {% if user.gender %} <p><strong>Gender:</strong> {{ user.gender}}</p> {% endif %}
-    {% if user.phone_number %} <p><strong>Phone Number:</strong> (+ {{ user.phone_country_code}} ) {{ user.phone_number }}</p>  {% endif %} 
+    {% if user.phone_number %} <p><strong>Phone Number:</strong> (+ {{ user.phone_country_code}} ) {{ user.phone_number }}</p> 
+  {% endif %} 
+  <br>
+
+  <table>
+    {% for pic in pictures %}
+      {% cycle '<tr>' '' '' %}
+        <td><img class='img-responsive' src="{{ MEDIA_URL }} {{pic.picture.url}}" style="width:200px;height:200px;"></a></td>
+      {% cycle '' '' '</tr>' %}
+    {% endfor %}
+  </table>
 
 {% endblock %}
