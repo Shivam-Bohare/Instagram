@@ -1,6 +1,5 @@
 from django.urls import path
 from . import views
-from .views import NewUserView
 #from .views import EditUserInfoView
 from django.conf.urls import url, include
 from django.conf.urls.static import static 
@@ -18,7 +17,7 @@ urlpatterns = [
     path('add_picture/', views.picture_view, name='add_picture'),
     path('notification/', views.index, name='notification'),
     path('profile/', views.index, name='profile'),
-    path('edit_profile/', views.EditUserView.as_view(), name='edit_profile'),
+    path('edit_profile/', views.edit_profile, name='edit_profile'),
     path('settings/', views.index, name='settings'),
     path('', views.index, name='index'),
     #url(r'profile/(?P<username>[a-zA-Z0-9]+)$', views.profile),

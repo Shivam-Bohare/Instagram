@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views import generic
 from django.contrib.auth.models import User
-from .models import UserInfo, Picture, PictureLike
+from .models import Profile, Picture, PictureLike
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
@@ -12,10 +12,11 @@ from django.forms import modelformset_factory
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import FormView
 #from social.forms import UserInfoForm
-from social.forms import UserForm, PictureForm
+from social.forms import PictureForm
 from django.urls import reverse
 from django.views.generic import UpdateView
 from django.shortcuts import render, redirect 
+from .forms import ProfileForm, EditProfileForm
 
 # def userDetails(request, pk):
 #     userinfo = get_object_or_404(UserInfo, pk=pk)
@@ -38,32 +39,57 @@ from django.shortcuts import render, redirect
 
 #     return render(request, "social/edit_profile.html", args)
 
-class NewUserView(FormView):
-    template_name = "social/edit_profile.html"
-    form_class = UserForm
+# class NewUserView(FormView):
+#     template_name = "social/edit_profile.html"
+#     form_class = UserForm
 
-    def form_valid(self, form):
-        form.save(self.request.user)
-        return super(NewUserView, self).form_valid(form)
+#     def form_valid(self, form):
+#         form.save(self.request.user)
+#         return super(NewUserView, self).form_valid(form)
 
-    def get_success_url(self, *args, **kwargs):
-        return reverse("search")
+#     def get_success_url(self, *args, **kwargs):
+#         return reverse("search")
     
-class EditUserView(UpdateView):
-    model = User
-    form_class = UserForm
-    template_name = "social/index.html"
+# class EditUserView(UpdateView):
+#     model = User
+#     form_class = UserForm
+#     template_name = "social/index.html"
 
-    def get_object(self, *args, **kwargs): #*args, **kwargs):
-        #user = get_object_or_404(User, pk=self.kwargs['pk'])
-        obj, created = User.objects.get_or_create(pk=self.kwargs['pk'])
-        # We can also get user object using self.request.user  but that doesnt work User, pk=self.kwargs['pk']
-        # for other models.
+#     def get_object(self, *args, **kwargs): #*args, **kwargs):
+#         #user = get_object_or_404(User, pk=self.kwargs['pk'])
+#         obj, created = User.objects.get_or_create(pk=self.kwargs['pk'])
+#         # We can also get user object using self.request.user  but that doesnt work User, pk=self.kwargs['pk']
+#         # for other models.
 
-        return obj
+#         return obj
 
-    def get_success_url(self, *args, **kwargs):
-        return reverse("index")
+#     def get_success_url(self, *args, **kwargs):
+#         return reverse("index")
+
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.decorators import login_required
+
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if form.is_valid() and profile_form.is_valid():
+            user_form = form.save()
+            custom_form = profile_form.save(False)
+            custom_form.user = user_form
+            custom_form.save()
+            return redirect('index')
+    else:
+        form = EditProfileForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.profile)
+        args = {}
+        # args.update(csrf(request))
+        args['form'] = form
+        args['profile_form'] = profile_form
+        return render(request, 'social/edit_profile.html', args)
 
 def picture_view(request): 
   

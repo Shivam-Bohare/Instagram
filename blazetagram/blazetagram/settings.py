@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "social",
     "django.contrib.sites",
+    #'social.apps.SocialConfig',
     
     # "allauth.socialaccount.providers.instagram",
     # "allauth.socialaccount.providers.linkedin",
@@ -139,11 +140,11 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 AUTHENTICATION_BACKENDS = (
     #'django.contrib.auth.backends.ModelBackend',
-    'blazetagram.auth_backends.UserInfoModelBackend',
+   # 'blazetagram.auth_backends.UserInfoModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-CUSTOM_USER_MODEL = 'accounts.UserInfo'
+#CUSTOM_USER_MODEL = 'accounts.UserInfo'
 
 ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1

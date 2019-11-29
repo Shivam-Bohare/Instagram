@@ -1,12 +1,12 @@
 from django.contrib import admin
-from social.models import UserInfo , Comment , CommentReply , PictureLike , Block , Follow , FollowRequest , Picture
+from social.models import Profile , Comment , CommentReply , PictureLike , Block , Follow , FollowRequest , Picture
 
-class UserInfoInline(admin.TabularInline):
-    model = UserInfo
-    extra = 0
+# class UserInfoInline(admin.TabularInline):
+#     model = UserInfo
+#     extra = 0
 
-@admin.register(UserInfo)
-class UserInfoAdmin(admin.ModelAdmin):
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
     pass
 
 @admin.register(Picture)

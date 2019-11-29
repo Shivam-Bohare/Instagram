@@ -1,25 +1,18 @@
 from django.db import models
 from django.urls import reverse
-from django.contrib.auth.models import User, UserManager
+from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 #from django.contrib.auth.models import AbstractUser
 
-# class User1(User):
-#     class Meta:
-#         proxy = True
-
-#     def get_absolute_url(self):
-#         return reverse('user-detail-view', args=[str(self.id)])  # pylint: disable=no-member
-
-# -----------------------------------User Info Model Class---------------------------------#
-class UserInfo(User):
+# -----------------------------------User Profile Model Class---------------------------------#
+class Profile(models.Model):
     """Model for user info to be displayed on the website"""
-    #objects = UserManager()
-    #user_id = models.OneToOneField(User, on_delete=models.CASCADE)
-     
-    biography = models.TextField(verbose_name="Biography", blank=True, null=True)
+
+    user_id = models.OneToOneField(User, on_delete=models.CASCADE)
+    
+    bio = models.TextField(verbose_name="Bio", blank=True, null=True)
     
     website = models.CharField(
         verbose_name="Website", max_length=20, blank=True, null=True
@@ -29,11 +22,11 @@ class UserInfo(User):
         verbose_name="Gender", blank=True, null=True, max_length=10
     )
 
-    privacy = models.BooleanField(verbose_name="Privacy", default=False)
+    privacy = models.BooleanField(verbose_name="Privacy", default=False, null=True)
     
     profile_picture = models.ImageField(blank=True, null=True, upload_to='images/')
     
-    time = models.DateTimeField(verbose_name="User Creation Time", auto_now=True)
+    time = models.DateTimeField(verbose_name="User Creation Time", auto_now=True, null=True)
     
     COUNTRY_CODES = (
         ("591", "Bolivia (+591)"),
@@ -236,7 +229,16 @@ class UserInfo(User):
 
     def __str__(self):
         """String for representing the Model object"""
-        return f"{self.username}"
+        return f"{self.user_id.username}"  # pylint: disable=no-member
+    
+    # @receiver(post_save, sender=User)
+    # def create_user_profile(sender, instance, created, **kwargs):
+    #     if created:
+    #         Profile.objects.create(user=instance) # pylint: disable=no-member
+
+    # @receiver(post_save, sender=User)
+    # def save_user_profile(sender, instance, **kwargs): # pylint: disable=no-self-argument
+    #     instance.profile.save()
 
     # def get_absolute_url(self):
     #     """Returns the url to access a particular instance of UserInfo."""
@@ -246,7 +248,7 @@ class UserInfo(User):
 class Picture(models.Model):
     picture_user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     time = models.DateTimeField(verbose_name="Upload Time", auto_now=True)
-    picture_description = models.TextField(verbose_name="Picture Description")
+    picture_description = models.TextField(verbose_name="Picture Description" , blank=True, null=True)
     picture = models.ImageField(null = True, upload_to='images/')
     
     class Meta:
